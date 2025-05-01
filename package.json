@@ -13,12 +13,15 @@
     "format": "prettier --write src/",
     "supabase:init": "supabase init",
     "supabase:login": "supabase login",
-    "supabase:link": "supabase link --project-ref vtknwiyosmailfltnipx",
+    "supabase:link": "supabase link --project-ref baavizkjepbcaklxvgvd",
     "db:migrate:new": "supabase migration new projects-schema",
-    "db:reset": "supabase db reset --linked"
+    "db:reset": "supabase db reset --linked",
+    "db:seed": "node --env-file=.env database/seed.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
+    "axios": "^1.9.0",
+    "dotenv": "^16.5.0",
     "pinia": "^3.0.1",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
