@@ -1,5 +1,15 @@
 <script setup lang="ts">
+  import { supabase } from '@/lib/supabaseClient';
+import { ref } from 'vue';
+import type { Tables } from '../../database/types';
 
+const projects = ref<Tables<'projects'>[] | null>(null);
+  (async()=>{
+    const { data , error } = await supabase.from('projects').select()
+    if (error) console.log(error)
+    projects.value = data
+    console.log('projects :', projects.value)
+  })()
 </script>
 
 <template>
@@ -7,4 +17,9 @@
     <h1>projects page</h1>
     <router-link to="/">got to home</router-link>
   </div>
+ <ul>
+  <li v-for="project in projects" :key="project.id">
+    {{ project.name }}
+  </li>
+ </ul>
 </template>
