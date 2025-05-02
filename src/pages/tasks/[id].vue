@@ -1,8 +1,7 @@
 <script setup lang="ts">
+
 </script>
 
 <template>
-  <AuthLayout>
-    <RouterView />
-  </AuthLayout>
+  <div>taks</div>
 </template>
