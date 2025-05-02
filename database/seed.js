@@ -2,23 +2,27 @@ import { fakerEN_US as faker } from '@faker-js/faker';
 import axios from 'axios';
 import { config } from 'dotenv';
 
-config(); // لتحميل متغيرات البيئة من ملف .env
+config(); // تحميل متغيرات البيئة من ملف .env
 
-const supabaseUrl = process.env.VITE_SUPABASE_URL; // URL من .env
-const supabaseKey = process.env.SERVICE_ROLE_KEY; // API Key من .env
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.SERVICE_ROLE_KEY;
 
-const supabaseApiUrl = `${supabaseUrl}/rest/v1/projects`; // مسار API للجدول 'projects'
+const headers = {
+  'apikey': supabaseKey,
+  'Authorization': `Bearer ${supabaseKey}`,
+  'Content-Type': 'application/json',
+  'Prefer': 'return=representation',
+};
 
 const logErrorAndExit = (tableName, error) => {
-  console.error(
-    `An error occurred in table '${tableName}' with code ${error.code}: ${error.message}`
-  );
+  const msg = error?.response?.data?.message || error.message || error;
+  console.error(`An error occurred in table '${tableName}': ${msg}`);
   process.exit(1);
-}
+};
 
 const logStep = (stepMessage) => {
   console.log(stepMessage);
-}
+};
 
 const seedProjects = async (numEntries) => {
   logStep('Seeding projects...');
@@ -28,7 +32,7 @@ const seedProjects = async (numEntries) => {
     const name = faker.lorem.words(3);
 
     projects.push({
-      name: name,
+      name,
       slug: name.toLowerCase().replace(/\s+/g, '-'),
       status: faker.helpers.arrayElement(['in-progress', 'completed']),
       collaborators: faker.helpers.arrayElements([1, 2, 3]),
@@ -36,26 +40,53 @@ const seedProjects = async (numEntries) => {
   }
 
   try {
-    const response = await axios.post(supabaseApiUrl, projects, {
-      headers: {
-        'apikey': supabaseKey,
-        'Authorization': `Bearer ${supabaseKey}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=representation',
-      },
-    });
+    const response = await axios.post(
+      `${supabaseUrl}/rest/v1/projects`,
+      projects,
+      { headers }
+    );
 
     logStep('Projects seeded successfully.');
-    return response.data; // البيانات المدخلة
+    return response.data; // يحتوي على بيانات المشاريع (مع id)
   } catch (error) {
     logErrorAndExit('Projects', error);
   }
 };
 
+const seedTasks = async (numEntries, projectIds) => {
+  logStep('Seeding tasks...');
+  const tasks = [];
+
+  for (let i = 0; i < numEntries; i++) {
+    tasks.push({
+      name: faker.lorem.words(3),
+      status: faker.helpers.arrayElement(['in-progress', 'completed']),
+      description: faker.lorem.paragraph(),
+      due_date: faker.date.future().toISOString(),
+      project_id: faker.helpers.arrayElement(projectIds),
+      collaborators: faker.helpers.arrayElements([1, 2, 3]),
+    });
+  }
+
+  try {
+    const response = await axios.post(
+      `${supabaseUrl}/rest/v1/tasks`,
+      tasks,
+      { headers }
+    );
+
+    logStep('Tasks seeded successfully.');
+    return response.data;
+  } catch (error) {
+    logErrorAndExit('Tasks', error);
+  }
+};
+
 const seedDatabase = async (numEntriesPerTable) => {
-  await seedProjects(numEntriesPerTable);
+  const projects = await seedProjects(numEntriesPerTable);
+  const projectIds = projects.map((p) => p.id);
+  await seedTasks(numEntriesPerTable, projectIds);
 };
 
 const numEntriesPerTable = 10;
-
 seedDatabase(numEntriesPerTable);
