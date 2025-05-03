@@ -35,10 +35,14 @@ export default defineConfig({
         // presets
         'vue',
         'vue-router',
+        {
+          'pinia' : ['defineStore' , 'storeToRefs' , "acceptHMRUpdate"]
+        }
         // custom
         ],
         dts: true,
         viteOptimizeDeps: true,
+        dirs : ['src/stores']
      }),
      Components({ /* options */ }),
   ],
