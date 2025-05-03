@@ -1,8 +1,7 @@
 <script setup lang="ts">
+import AppError from '@/components/ui/appError/AppError.vue';
 </script>
 
 <template>
-  <div>
-    <h1>404 NOT FOUND  </h1>
-  </div>
+  <AppError />
 </template>
