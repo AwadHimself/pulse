@@ -27,30 +27,22 @@ if(error.value && ('code' in error.value)){
 }
 
   const router = useRouter()
+
+  const ErrorTemplate =import.meta.env.DEV ?
+  defineAsyncComponent(()=>import('@/components/ui/appError/AppErrorDevSec.vue')):
+  defineAsyncComponent(()=>import('@/components/ui/appError/AppErrorProdSec.vue'))
+
   router.afterEach(()=>{
-    useErrorStore().activeErrorState = null
+    useErrorStore().clearError()
   })
 </script>
 <template>
   <section class="error">
-    <div>
-      <iconify-icon icon="lucide:triangle-alert" class="error__icon" />
-      <h1 class="error__code">{{ customCode || code }}</h1>
-      <h1 class="error__code" v-if="statusCode">Status Code : {{ statusCode }}</h1>
-      <p class="error__msg">{{ message }}</p>
-      <p v-if="hint">{{ hint }}</p>
-      <p v-if="details">{{ details }}</p>
-      <div class="error-footer">
-        <p class="error-footer__text">You'll find lots to explore on the home page.</p>
-        <RouterLink to="/">
-          <Button class="max-w-36"> Back to homepage </Button>
-        </RouterLink>
-      </div>
-    </div>
+    <ErrorTemplate :message :customCode :code :statusCode :hint :details :isCustomError="errorStore.isCustomError" />
   </section>
 </template>
 
-<style scoped lang="scss">
+<style  lang="scss">
 .error {
   margin-left: auto;
   margin-right: auto;

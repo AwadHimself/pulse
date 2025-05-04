@@ -1,9 +1,9 @@
 import type { ColumnDef } from '@tanstack/vue-table'
 import { RouterLink } from 'vue-router'
-import type { TaskWithProjects } from '../SupaQueries'
+import type { TasksWithProjects } from '../SupaQueries'
 
 
-export const columns: ColumnDef<TaskWithProjects[0]>[] = [
+export const columns: ColumnDef<TasksWithProjects[0]>[] = [
   {
     accessorKey: 'name',
     header: () => h('div', { class: 'text-left' }, 'Name'),

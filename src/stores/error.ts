@@ -1,19 +1,37 @@
-import type { CustomError, ExtendedPostgrestError } from '@/stores/types/Error';
+import type { CustomError, ExtendedPostgrestErorr } from '@/stores/types/Error';
 import type { PostgrestError } from '@supabase/supabase-js';
 export const useErrorStore = defineStore('error-store' , ()=>{
-  const activeErrorState = ref<null | CustomError | ExtendedPostgrestError >(null)
-
-  const setError = ({error , customCode}:{ error : string | PostgrestError , customCode : number})=>{
-    if(typeof error === 'string' ){
-      activeErrorState.value = new  Error(error)
-      activeErrorState.value.customCode = customCode
-      return
+  const activeErrorState = ref<null | CustomError | ExtendedPostgrestErorr >(null)
+  const isCustomError = ref(false)
+  const setError = ({
+    error,
+    customCode
+  }: {
+    error: string | PostgrestError | Error;
+    customCode?: number;
+  }) => {
+    if(typeof error === 'string') isCustomError.value= true
+    if (typeof error === 'string' || error instanceof Error) {
+      const err: CustomError = typeof error === 'string' ? new Error(error) : error;
+      err.customCode = customCode || 500;
+      activeErrorState.value = err;
+      return;
     }
-    activeErrorState.value = error
-    activeErrorState.value.statusCode = customCode
+
+    const err: ExtendedPostgrestErorr = error;
+    err.statusCode = customCode || 500;
+    activeErrorState.value = err;
+  };
+
+  const clearError = ()=>{
+    activeErrorState.value = null 
+    isCustomError.value = false
   }
-  return {
+
+    return {
     activeErrorState,
-    setError
+    setError,
+    isCustomError,
+    clearError
   }
 })
