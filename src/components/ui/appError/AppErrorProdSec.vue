@@ -2,10 +2,7 @@
 const props = defineProps<{
   message: string
   customCode: number
-  code: string
   statusCode: number
-  hint: string | null
-  details: string
   isCustomError : boolean
 }>()
 
@@ -18,7 +15,7 @@ if(props.isCustomError){
   error.value.code = props.customCode
   error.value.msg = props.message
 }
-if(props.customCode=== 406){
+if(props.statusCode=== 406){
   error.value.code = 404
   error.value.msg = "Sorry we couldn't find this page"
 
@@ -28,8 +25,8 @@ if(props.customCode=== 406){
 <template>
     <div>
       <iconify-icon icon="lucide:triangle-alert" class="error__icon" />
-      <h1 class="error__code">{{ customCode  }}</h1>
-      <p class="error__msg">{{ message }}</p>
+      <h1 class="error__code">{{ error.code  }}</h1>
+      <p class="error__msg">{{ error.msg }}</p>
       <div class="error-footer">
         <p class="error-footer__text">You'll find lots to explore on the home page.</p>
         <RouterLink to="/">

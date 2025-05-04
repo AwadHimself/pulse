@@ -28,9 +28,9 @@ if(error.value && ('code' in error.value)){
 
   const router = useRouter()
 
-  const ErrorTemplate =import.meta.env.DEV ?
-  defineAsyncComponent(()=>import('@/components/ui/appError/AppErrorDevSec.vue')):
-  defineAsyncComponent(()=>import('@/components/ui/appError/AppErrorProdSec.vue'))
+  const ErrorTemplate =import.meta.env.DEV
+  ? defineAsyncComponent(()=>import('@/components/ui/appError/AppErrorDevSec.vue'))
+  : defineAsyncComponent(()=>import('@/components/ui/appError/AppErrorProdSec.vue'))
 
   router.afterEach(()=>{
     useErrorStore().clearError()
