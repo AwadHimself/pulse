@@ -1,9 +1,45 @@
+<script lang="ts" setup>
+import { useErrorStore } from '@/stores/error';
+
+
+const errorStore  = useErrorStore()
+const error = ref(errorStore.activeErrorState)
+
+const message = ref('')
+const customCode = ref(0)
+const details = ref('')
+const code = ref('')
+const statusCode = ref(0)
+const hint = ref('')
+
+if(error.value && !('code' in error.value) ){
+  message.value = error.value.message
+  customCode.value = error.value.customCode ?? 0
+}
+
+if(error.value && ('code' in error.value)){
+  message.value = error.value.message
+  details.value = error.value.details
+  hint.value = error.value.hint
+  code.value = error.value.code
+  statusCode.value = error.value.statusCode ?? 0
+
+}
+
+  const router = useRouter()
+  router.afterEach(()=>{
+    useErrorStore().activeErrorState = null
+  })
+</script>
 <template>
   <section class="error">
     <div>
       <iconify-icon icon="lucide:triangle-alert" class="error__icon" />
-      <h1 class="error__code">404</h1>
-      <p class="error__msg">Page not found</p>
+      <h1 class="error__code">{{ customCode || code }}</h1>
+      <h1 class="error__code" v-if="statusCode">Status Code : {{ statusCode }}</h1>
+      <p class="error__msg">{{ message }}</p>
+      <p v-if="hint">{{ hint }}</p>
+      <p v-if="details">{{ details }}</p>
       <div class="error-footer">
         <p class="error-footer__text">You'll find lots to explore on the home page.</p>
         <RouterLink to="/">
@@ -35,13 +71,13 @@
   &__code {
     font-weight: 800;
     font-size: 3.5rem;
-    color: #a1a1aa; // assuming "text-secondary" is a gray tone
+    color:#2b3f6f;  // assuming "text-secondary" is a gray tone
   }
 
   &__msg {
     font-size: 1.875rem; // text-3xl
     font-weight: 800;
-    color: #0f172a; // assuming "text-primary" is a dark tone
+    color:  #a1a1aa;// assuming "text-primary" is a dark tone
   }
 
   &-footer {
