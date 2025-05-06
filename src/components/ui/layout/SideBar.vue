@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
   const links = [
   {
     title: 'Dashboard',
@@ -30,10 +31,16 @@ const accountLinks = [
   },
   {
     title: 'Sign Out',
-    to: '/signout',
     icon: 'lucide:log-out'
   }
 ]
+
+const excuteAction = async (linkTitle: string)=>{
+  if(linkTitle === 'Sign Out'){
+    const {logout} = await import('@/utils/supaAuth')
+    await logout()
+  }
+}
 
 </script>
 <template>
@@ -56,7 +63,7 @@ class="flex flex-col h-screen gap-2 border-r fixed bg-muted/40 lg:w-52 w-16 tran
   </div>
 
   <div class="border-y text-center bg-background py-3">
-    <SideBarLinks :links="accountLinks" />
+    <SideBarLinks :links="accountLinks" @actionClicked="excuteAction" />
   </div>
 </nav>
 </aside>

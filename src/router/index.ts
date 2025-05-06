@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/stores/auth'
+// import { useAuthStore } from '@/stores/auth'
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { routes } from 'vue-router/auto-routes'
 
@@ -7,9 +7,9 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach(async ()=>{
-  const { getSession } = useAuthStore()
-  await getSession()
-})
+// router.beforeEach(async ()=>{
+//   const { getSession } = useAuthStore()
+//   await getSession()
+// })
 
 export default router
