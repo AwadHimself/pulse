@@ -1,10 +1,6 @@
 <script lang="ts" setup>
-import { useErrorStore } from '@/stores/error';
-
-
 const errorStore  = useErrorStore()
 const error = ref(errorStore.activeErrorState)
-
 const message = ref('')
 const customCode = ref(0)
 const details = ref('')

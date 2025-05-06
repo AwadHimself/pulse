@@ -63,6 +63,7 @@ declare global {
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useErrorStore: typeof import('./src/stores/error')['useErrorStore']
+  const useFormErrors: typeof import('./src/composables/FormErrors')['useFormErrors']
   const useId: typeof import('vue')['useId']
   const useLink: typeof import('vue-router')['useLink']
   const useModel: typeof import('vue')['useModel']
@@ -81,4 +82,10 @@ declare global {
   // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { LoginForm, RegisterForm } from './src/stores/types/AuthForm'
+  import('./src/stores/types/AuthForm')
+  // @ts-ignore
+  export type { CustomError, ExtendedPostgrestErorr } from './src/stores/types/Error'
+  import('./src/stores/types/Error')
 }
