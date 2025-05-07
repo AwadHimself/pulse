@@ -1,9 +1,15 @@
 import type { LoginForm } from "@/stores/types/AuthForm"
 import type { AuthError } from "@supabase/supabase-js"
 
+type FormError<Type> = {
+  [Property in keyof Type ] : string[]
+}
+
 export const useFormErrors = ()=>{
   const serverErorr = ref('')
-  const realTimeErrors = ref()
+  const realTimeErrors = ref<FormError<LoginForm>>()
+
+
   const handleServerError = (error:AuthError)=>{
     serverErorr.value=    error.message === 'Invalid login credentials'
     ? 'Incorrect email or password'
