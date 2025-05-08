@@ -7,6 +7,7 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const Use: (typeof import('./src/stores/loaders/projects'))['Use']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
@@ -46,11 +47,11 @@ declare global {
   const readonly: typeof import('vue')['readonly']
   const ref: typeof import('vue')['ref']
   const resolveComponent: typeof import('vue')['resolveComponent']
-  const s: typeof import('pinia')['s']
+  const s: (typeof import('pinia'))['s']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
-  const storeTo: typeof import('pinia')['storeTo']
+  const storeTo: (typeof import('pinia'))['storeTo']
   const storeToRefs: typeof import('pinia')['storeToRefs']
   const toRaw: typeof import('vue')['toRaw']
   const toRef: typeof import('vue')['toRef']
@@ -65,9 +66,10 @@ declare global {
   const useErrorStore: typeof import('./src/stores/error')['useErrorStore']
   const useFormErrors: typeof import('./src/composables/FormErrors')['useFormErrors']
   const useId: typeof import('vue')['useId']
-  const useLink: typeof import('vue-router')['useLink']
+  const useLink: (typeof import('vue-router'))['useLink']
   const useModel: typeof import('vue')['useModel']
   const usePageStore: typeof import('./src/stores/page')['usePageStore']
+  const useProjectsStore: typeof import('./src/stores/loaders/projects')['useProjectsStore']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
@@ -82,10 +84,4 @@ declare global {
   // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
-  // @ts-ignore
-  export type { LoginForm, RegisterForm } from './src/stores/types/AuthForm'
-  import('./src/stores/types/AuthForm')
-  // @ts-ignore
-  export type { CustomError, ExtendedPostgrestErorr } from './src/stores/types/Error'
-  import('./src/stores/types/Error')
 }
