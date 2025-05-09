@@ -16,7 +16,8 @@ export default defineConfigWithVueTs(
   skipFormatting,
   {
     rules: {
-      'vue/multi-word-component-names': 'off'
+      'vue/multi-word-component-names': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
     }
   }
 )
