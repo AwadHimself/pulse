@@ -38,7 +38,9 @@ export const columns = (collabs: Ref<GroupedCollabs>): ColumnDef<Projects[0]>[] 
         collabs.value[row.original.id]
         ?
         collabs.value[row.original.id].map((collab) => {
-          return h(Avatar , ()=> h(AvatarImage , {src: collab.avatar_url || ''}))
+          return h(RouterLink , {to:`/users/${collab.username}`} ,()=>{
+            return h(Avatar ,{class: 'hover:scale-110 transition-trasform'} , ()=> h(AvatarImage , {src: collab.avatar_url || ''}))
+          })
         })
         :row.original.collaborators.map(()=>{
           return h(Avatar , {class:"animate-pulse"} , ()=>h(AvatarFallback))

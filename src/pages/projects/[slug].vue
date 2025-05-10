@@ -1,29 +1,26 @@
 
 <script setup lang="ts">
-import { projectQuery, type Project } from '@/utils/SupaQueries';
+import { useProjectsStore } from '@/stores/loaders/projects';
 
 
 
-const route = useRoute(`/projects/[slug]`)
-  const project = ref<Project | null>(null);
+const {slug} = useRoute(`/projects/[slug]`).params
 
-  const fetchProject = async()=>{
-    const { data, error , status } = await projectQuery(route.params.slug)
-    if (error) useErrorStore().setError({error , customCode:status})
-    project.value = data
-  }
+const projectsLoader = useProjectsStore()
+const {project} = storeToRefs(projectsLoader)
+const {fetchProject} = projectsLoader
 
   watch(()=>project.value?.name , ()=>{
     usePageStore().pageData.title = `project : ${project.value?.name}`
   })
 
-  await fetchProject()
+  await fetchProject(slug)
 </script>
 <template>
   <Table v-if="project">
     <TableRow>
       <TableHead> Name </TableHead>
-      <TableCell> {{ project.name }} </TableCell>
+      <TableCell> <AppInPlaceEditText v-model="project.name" /> </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Description </TableHead>

@@ -21,7 +21,7 @@
 const accountLinks = [
   {
     title: 'Profile',
-    to: '/users',
+    to: '/users/',
     icon: 'lucide:user'
   },
   {

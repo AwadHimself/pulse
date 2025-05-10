@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabaseClient"
+import type { LoginForm, RegisterForm } from "@/types/AuthForm"
 
 
 export const register = async( formData : RegisterForm)=>{
