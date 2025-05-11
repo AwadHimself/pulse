@@ -15,6 +15,10 @@ const {fetchProject , updateProject} = projectsLoader
   })
 
   await fetchProject(slug)
+
+  const {getProfilesById} = useCollabs()
+
+  const collabs =  project.value?.collaborators ? await getProfilesById(project.value?.collaborators) : []
 </script>
 <template>
   <Table v-if="project">
@@ -25,7 +29,7 @@ const {fetchProject , updateProject} = projectsLoader
     <TableRow>
       <TableHead> Description </TableHead>
       <TableCell>
-        <AppInPlaceEditText v-model="project.description" @commit="updateProject"/>
+        <AppInPlaceEditTextarea v-model="project.description" @commit="updateProject"/>
       </TableCell>
     </TableRow>
     <TableRow>
@@ -40,11 +44,12 @@ const {fetchProject , updateProject} = projectsLoader
         <div class="flex">
           <Avatar
             class="-mr-4 border border-primary hover:scale-110 transition-transform"
-            v-for="collab in project.collaborators"
-            :key="collab"
+            v-for="collab in collabs"
+            :key="collab.id"
           >
-            <RouterLink class="w-full h-full flex items-center justify-center" to="">
-              <AvatarImage src="" alt="" />
+            <RouterLink class="w-full h-full flex items-center justify-center"
+            :to="{name: '/users/[username]' , params:{username : collab.username} } ">
+              <AvatarImage :src="collab.avatar_url || '' " alt="" />
               <AvatarFallback> </AvatarFallback>
             </RouterLink>
           </Avatar>
@@ -67,9 +72,17 @@ const {fetchProject , updateProject} = projectsLoader
           </TableHeader>
           <TableBody>
             <TableRow v-for="task in project.tasks" :key="task.id">
-              <TableCell> Lorem ipsum dolor sit amet. </TableCell>
-              <TableCell> In progress </TableCell>
-              <TableCell> 22/08/2024 </TableCell>
+              <TableCell>
+                <router-link
+                class="text-left block hover:bg-muted p-4"
+                :to="{name: '/tasks/[id]' , params: {id: task.id }}">
+                  {{ task.name }}
+                </router-link>
+              </TableCell>
+              <TableCell>
+                <AppInPlaceEditStatus readOnly />
+              </TableCell>
+              <TableCell> {{task.due_date}} </TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -81,20 +94,6 @@ const {fetchProject , updateProject} = projectsLoader
         <p class="text-muted-foreground text-sm font-semibold px-4 py-3">
           This project doesn't have documents yet...
         </p>
-        <!-- <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead> Name </TableHead>
-              <TableHead> Visibility </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell> Lorem ipsum dolor sit amet. </TableCell>
-              <TableCell> Private </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table> -->
       </div>
     </div>
   </section>

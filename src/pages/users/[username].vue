@@ -7,6 +7,8 @@ import type { Tables } from 'database/types';
 
   const profile = ref<Tables<'profiles'> | null >(null)
 
+  usePageStore().pageData.title = ''
+
   const getProfiles = async ()=>{
     const {error , data , status} = await profileQuery({
         column : 'username',

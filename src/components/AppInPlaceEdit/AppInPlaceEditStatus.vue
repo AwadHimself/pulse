@@ -3,7 +3,14 @@
 
   const emit  = defineEmits(['commit'])
 
+  const {readOnly = false} = defineProps<{
+    readOnly ?:boolean
+  }>()
+
   const toggleStatus = ()=>{
+
+    if (readOnly) return
+
     value.value = value.value === 'completed' ? 'in-progress' : 'completed'
 
     emit('commit')

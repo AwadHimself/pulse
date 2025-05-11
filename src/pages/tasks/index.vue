@@ -5,6 +5,7 @@ import {columns} from '@/utils/table-cols/TaskCols'
 
 
 usePageStore().pageData.title= 'My Tasks'
+
 const tasks = ref<TasksWithProjects | null>(null)
 const fetchTasks = async () => {
   const { data, error , status } = await tasksWithProjectsQuery
