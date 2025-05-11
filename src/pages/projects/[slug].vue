@@ -8,7 +8,7 @@ const {slug} = useRoute(`/projects/[slug]`).params
 
 const projectsLoader = useProjectsStore()
 const {project} = storeToRefs(projectsLoader)
-const {fetchProject} = projectsLoader
+const {fetchProject , updateProject} = projectsLoader
 
   watch(()=>project.value?.name , ()=>{
     usePageStore().pageData.title = `project : ${project.value?.name}`
@@ -20,17 +20,19 @@ const {fetchProject} = projectsLoader
   <Table v-if="project">
     <TableRow>
       <TableHead> Name </TableHead>
-      <TableCell> <AppInPlaceEditText v-model="project.name" /> </TableCell>
+      <TableCell> <AppInPlaceEditText v-model="project.name" @commit="updateProject"/> </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Description </TableHead>
       <TableCell>
-        {{ project.description }}
+        <AppInPlaceEditText v-model="project.description" @commit="updateProject"/>
       </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Status </TableHead>
-      <TableCell>{{ project.status }}</TableCell>
+      <TableCell>
+        <AppInPlaceEditStatus v-model="project.status"  @commit="updateProject" />
+      </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Collaborators </TableHead>
