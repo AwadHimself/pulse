@@ -6,7 +6,7 @@
 const route = useRoute(`/tasks/[id]`)
 const tasksLoader = useTasksStore()
 const {task} = storeToRefs(tasksLoader)
-const {fetchTask} = tasksLoader
+const {fetchTask ,updateTask} = tasksLoader
 
 
 
@@ -15,7 +15,7 @@ const {fetchTask} = tasksLoader
   const {getProfilesById} = useCollabs()
     const collabs =  task.value?.collaborators ? await getProfilesById(task.value?.collaborators) : []
 
-      watch(()=>task.value?.name , ()=>{
+  watch(()=>task.value?.name , ()=>{
     usePageStore().pageData.title = `Task : ${task.value?.name}`
   })
 
@@ -23,16 +23,22 @@ const {fetchTask} = tasksLoader
 
 </script>
 
-<template v-if="task">
-  <Table>
-    <TableRow>
+<template>
+  <Table  v-if="task">
+    <TableRow >
       <TableHead> Name </TableHead>
-      <TableCell> {{task?.name}} </TableCell>
+      <TableCell >
+        <AppInPlaceEditText v-model="task.name" @commit="updateTask" />
+      </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Description </TableHead>
       <TableCell>
-        {{ task?.description }}
+          <AppInPlaceEditTextarea
+            v-model="task.description"
+            @commit="updateTask"
+          />
+
       </TableCell>
     </TableRow>
     <TableRow>
@@ -46,7 +52,7 @@ const {fetchTask} = tasksLoader
     <TableRow>
       <TableHead> Status </TableHead>
       <TableCell>
-                <AppInPlaceEditStatus   />
+                <AppInPlaceEditStatus v-model="task.status" @commit="updateTask" />
       </TableCell>
     </TableRow>
     <TableRow>

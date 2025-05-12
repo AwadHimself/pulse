@@ -60,11 +60,8 @@ export const taskQuery = (id: number) => {
 }
 export type Task = QueryData<ReturnType<typeof taskQuery>>
 
-export const updateTasktQuery = (updatedTask = {} , id:number) => {
-  return supabase
-  .from('tasks')
-  .update(updatedTask)
-  .eq('id' , id)
+export const updateTaskQuery = (updatedTask = {}, id: number) => {
+  return supabase.from('tasks').update(updatedTask).eq('id', id)
 }
 
 
