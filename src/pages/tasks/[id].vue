@@ -34,7 +34,8 @@ const {fetchTask ,updateTask} = tasksLoader
     <TableRow>
       <TableHead> Description </TableHead>
       <TableCell>
-          <AppInPlaceEditTextarea
+            <AppInPlaceEditTextarea
+            class="h-20 w-full"
             v-model="task.description"
             @commit="updateTask"
           />

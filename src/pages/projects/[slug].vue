@@ -80,7 +80,7 @@ const {fetchProject , updateProject} = projectsLoader
                 </router-link>
               </TableCell>
               <TableCell>
-                <AppInPlaceEditStatus readOnly />
+                <AppInPlaceEditStatus v-model="task.status" readOnly />
               </TableCell>
               <TableCell> {{task.due_date}} </TableCell>
             </TableRow>
