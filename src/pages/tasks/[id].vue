@@ -1,23 +1,25 @@
 <script setup lang="ts">
-import { taskQuery, type Task } from '@/utils/SupaQueries';
 
 
 
 
 const route = useRoute(`/tasks/[id]`)
-  const task = ref<Task | null>(null);
+const tasksLoader = useTasksStore()
+const {task} = storeToRefs(tasksLoader)
+const {fetchTask} = tasksLoader
 
-  const fetchTask = async()=>{
-    const { data, error, status} = await taskQuery(Number(route.params.id))
-    if (error)  useErrorStore().setError({error , customCode:status})
-    task.value = data
-  }
 
-  watch(()=>task.value?.name , ()=>{
+
+  await fetchTask(Number(route.params.id))
+
+  const {getProfilesById} = useCollabs()
+    const collabs =  task.value?.collaborators ? await getProfilesById(task.value?.collaborators) : []
+
+      watch(()=>task.value?.name , ()=>{
     usePageStore().pageData.title = `Task : ${task.value?.name}`
   })
 
-  await fetchTask()
+
 
 </script>
 
@@ -43,7 +45,9 @@ const route = useRoute(`/tasks/[id]`)
     </TableRow>
     <TableRow>
       <TableHead> Status </TableHead>
-      <TableCell>{{ task?.status }}</TableCell>
+      <TableCell>
+                <AppInPlaceEditStatus   />
+      </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Collaborators </TableHead>
@@ -51,11 +55,12 @@ const route = useRoute(`/tasks/[id]`)
         <div class="flex">
           <Avatar
             class="-mr-4 border border-primary hover:scale-110 transition-transform"
-            v-for="collab in task?.collaborators"
-            :key="collab"
+            v-for="collab in collabs"
+            :key="collab.id"
           >
-            <RouterLink class="w-full h-full flex items-center justify-center" to="">
-              <AvatarImage src="" alt="" />
+            <RouterLink class="w-full h-full flex items-center justify-center"
+            :to="{name: '/users/[username]' , params:{username : collab.username} } ">
+              <AvatarImage :src="collab.avatar_url || '' " alt="" />
               <AvatarFallback> </AvatarFallback>
             </RouterLink>
           </Avatar>
