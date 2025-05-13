@@ -22,11 +22,13 @@ export const useTasksStore = defineStore('tasks-store', () => {
 
   const validateCache = ({ ref, query, key, loaderFn }: ValidateCacheParams) => {
     if (ref.value) {
+        // @ts-expect-error: key might be string or number and the function only accept number
       const finalQuery = typeof query === 'function' ? query(key) : query
       finalQuery.then(({ data, error }) => {
         if (JSON.stringify(ref.value) === JSON.stringify(data)) {
           return
         } else {
+          // @ts-expect-error: key might be string or number and the function only accept number
           loaderFn.delete(key)
           if (!error && data) ref.value = data
         }

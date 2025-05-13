@@ -27,15 +27,15 @@ const {fetchTask ,updateTask} = tasksLoader
   <Table  v-if="task">
     <TableRow >
       <TableHead> Name </TableHead>
-      <TableCell >
-        <AppInPlaceEditText v-model="task.name" @commit="updateTask" />
+      <TableCell class="w-full">
+        <AppInPlaceEditText  v-model="task.name" @commit="updateTask" />
       </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Description </TableHead>
       <TableCell>
             <AppInPlaceEditTextarea
-            class="h-20 w-full"
+            class="h-20"
             v-model="task.description"
             @commit="updateTask"
           />
@@ -48,7 +48,11 @@ const {fetchTask ,updateTask} = tasksLoader
     </TableRow>
     <TableRow>
       <TableHead> Project </TableHead>
-      <TableCell> {{ task?.projects?.name }}. </TableCell>
+      <TableCell>
+        <router-link :to="{name : '/projects/[slug]' , params:{slug: task.projects?.slug || '' }}">
+          {{ task?.projects?.name }}.
+        </router-link>
+      </TableCell>
     </TableRow>
     <TableRow>
       <TableHead> Status </TableHead>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { profile } = storeToRefs(useAuthStore())
+
 
   const links = [
   {
@@ -21,7 +23,7 @@
 const accountLinks = [
   {
     title: 'Profile',
-    to: '/users/',
+    to: `/users/${profile.value?.username}`,
     icon: 'lucide:user'
   },
   {
@@ -45,7 +47,7 @@ const excuteAction = async (linkTitle: string)=>{
     if(isLoggedOut) router.push("/login")
   }
 }
-
+defineEmits(['taskClicked'])
 </script>
 <template>
   <aside
@@ -56,9 +58,25 @@ class="flex flex-col h-screen gap-2 border-r fixed bg-muted/40 lg:w-52 w-16 tran
     <iconify-icon icon="lucide:menu"></iconify-icon>
   </Button>
 
-  <Button variant="outline" size="icon" class="w-8 h-8">
+          <DropdownMenu >
+          <DropdownMenuTrigger>
+              <Button variant="outline" size="icon" class="w-8 h-8">
     <iconify-icon icon="lucide:plus"></iconify-icon>
   </Button>
+
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Create New</DropdownMenuLabel>
+            <DropdownMenuSeparator/>
+            <DropdownMenuItem  @click="$emit('taskClicked')" >
+              Task
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              Project
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
 </div>
 
 <nav class="flex flex-col gap-2 justify-between h-full relative">
