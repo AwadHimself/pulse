@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabaseClient'
+import type { createNewTask } from '@/types/createNewForm'
 import type { QueryData } from '@supabase/supabase-js'
 
 export const tasksWithProjectsQuery = supabase.from('tasks').select(`
@@ -70,6 +71,8 @@ export const profileQuery = ({column , value}:{column : string , value:string })
   return supabase.from('profiles').select().eq(column , value).single()
 }
 
+export const profilesQuery = supabase.from('profiles').select('id , full_name')
+
 export const collabsQuery = (userIds : string[]) =>
   supabase
   .from('profiles')
@@ -79,5 +82,8 @@ export const collabsQuery = (userIds : string[]) =>
 
 export type Collabs = QueryData<ReturnType<typeof collabsQuery>>
 
+export const crateNewTaskQuery = (newTask : createNewTask) =>{
+  return supabase.from('tasks').insert(newTask)
+}
 
 
