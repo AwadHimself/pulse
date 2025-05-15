@@ -66,7 +66,6 @@ export const updateTaskQuery = (updatedTask = {}, id: number) => {
 }
 
 
-
 export const profileQuery = ({column , value}:{column : string , value:string }) => {
   return supabase.from('profiles').select().eq(column , value).single()
 }
@@ -86,4 +85,6 @@ export const crateNewTaskQuery = (newTask : createNewTask) =>{
   return supabase.from('tasks').insert(newTask)
 }
 
-
+export const deleteTaskQuery = (id : number) =>{
+  return supabase.from('tasks').delete().eq('id' , id)
+}
