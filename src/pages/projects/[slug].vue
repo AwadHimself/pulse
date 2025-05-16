@@ -61,7 +61,7 @@ const {fetchProject , updateProject} = projectsLoader
   <section v-if="project" class="mt-10 flex flex-col md:flex-row gap-5 justify-between grow">
     <div class="flex-1">
       <h2>Tasks</h2>
-      <div class="table-container">
+      <div class="table-container bg-muted">
         <Table>
           <TableHeader>
             <TableRow>
@@ -90,7 +90,7 @@ const {fetchProject , updateProject} = projectsLoader
     </div>
     <div class="flex-1">
       <h2>Documents</h2>
-      <div class="table-container">
+      <div class="table-container bg-muted">
         <p class="text-muted-foreground text-sm font-semibold px-4 py-3">
           This project doesn't have documents yet...
         </p>
@@ -111,11 +111,10 @@ h2 {
   width: fit-content;         // w-fit
 }
 
-.table-container {
+.table-container  {
   overflow: hidden;
   overflow-y: auto;
   border-radius: 0.375rem;    // rounded-md → 6px
-  background-color: #0f172a;  // bg-slate-900 → #0f172a
   height: 20rem;              // h-80 → 320px
 }
 td {

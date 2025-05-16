@@ -3,6 +3,8 @@ const route = useRoute(`/tasks/[id]`)
 const tasksLoader = useTasksStore()
 const {task} = storeToRefs(tasksLoader)
 const {fetchTask ,updateTask, deleteTask} = tasksLoader
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 
 
@@ -21,7 +23,13 @@ const {fetchTask ,updateTask, deleteTask} = tasksLoader
     deleteLoading.value = true
     await deleteTask()
     deleteLoading.value = false
+    toast(" Task Deleted", {
+  "theme": "colored",
+  "type": "error",
+})
+setTimeout(() => {
     router.push({name: '/tasks/'})
+}, 3000);
   }
 
 </script>

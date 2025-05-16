@@ -7,6 +7,9 @@ import {
   deleteTaskQuery
 } from '@/utils/SupaQueries'
 import { useMemoize } from '@vueuse/core'
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
+
 
 export const useTasksStore = defineStore('tasks-store', () => {
   const tasks = ref<TasksWithProjects | null>(null)
@@ -69,6 +72,8 @@ export const useTasksStore = defineStore('tasks-store', () => {
     const { projects, id, ...taskProperties } = task.value
 
     await updateTaskQuery(taskProperties, task.value.id)
+
+    
   }
 
   const deleteTask = async ()=>{

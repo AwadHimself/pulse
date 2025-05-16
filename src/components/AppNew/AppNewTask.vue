@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { createNewTask } from '@/types/createNewForm';
 import { projectsQuery , profilesQuery, crateNewTaskQuery } from '@/utils/SupaQueries';
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 const sheetOpen = defineModel<boolean>()
 
@@ -56,6 +58,11 @@ const createTask = async (formData : createNewTask)=>{
   }
 
   sheetOpen.value=false
+  toast("New Task Created", {
+  "theme": "colored",
+  "type": "success"
+})
+
 }
 </script>
 
