@@ -41,6 +41,7 @@ export type Database = {
       }
       projects: {
         Row: {
+          assignee: string | null
           collaborators: string[]
           created_at: string
           description: string
@@ -50,6 +51,7 @@ export type Database = {
           status: Database["public"]["Enums"]["current_status"]
         }
         Insert: {
+          assignee?: string | null
           collaborators?: string[]
           created_at?: string
           description?: string
@@ -59,6 +61,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["current_status"]
         }
         Update: {
+          assignee?: string | null
           collaborators?: string[]
           created_at?: string
           description?: string
@@ -67,7 +70,15 @@ export type Database = {
           slug?: string
           status?: Database["public"]["Enums"]["current_status"]
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "projects_assignee_fkey"
+            columns: ["assignee"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tasks: {
         Row: {

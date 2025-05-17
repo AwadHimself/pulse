@@ -38,7 +38,7 @@ export const columns = (collabs: Ref<GroupedCollabs>): ColumnDef<Projects[0]>[] 
     cell: ({ row }) => {
       return h(
         'div',
-        { class: 'text-left font-medium' },
+        { class: 'text-left font-medium flex' },
         collabs.value[row.original.id]
         ?
         collabs.value[row.original.id].map((collab) => {

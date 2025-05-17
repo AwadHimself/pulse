@@ -75,9 +75,8 @@ class="flex flex-col h-screen gap-2 border-r fixed bg-muted/40 transition-[width
           <DropdownMenu >
           <DropdownMenuTrigger>
               <Button variant="outline" size="icon" class="w-8 h-8">
-    <iconify-icon icon="lucide:plus"></iconify-icon>
-  </Button>
-
+                <iconify-icon icon="lucide:plus"></iconify-icon>
+              </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>Create New</DropdownMenuLabel>

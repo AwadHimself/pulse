@@ -6,7 +6,7 @@ import "vue3-toastify/dist/index.css";
 
 const sheetOpen = defineModel<boolean>()
 
-
+const today = new Date().toISOString().split('T')[0];
 type selectOption = {label:string , value: number | string}
 
 const selectOptions = ref({
@@ -94,6 +94,7 @@ const createTask = async (formData : createNewTask)=>{
           placeholder="Select a user"
           :options="selectOptions.profiles"
           validation="required"
+          
 
         />
         <FormKit
@@ -112,6 +113,13 @@ const createTask = async (formData : createNewTask)=>{
           label="Description"
           placeholder="Task description"
           validation="length :0,500"
+        />
+      <FormKit
+          type="date"
+          :value="today"
+          id="due_date"
+          name="due_date"
+          label="Due Date"
         />
       </FormKit>
     </SheetContent>
