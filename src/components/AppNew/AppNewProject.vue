@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import type { createNewTask } from '@/types/createNewForm';
-import { projectsQuery , profilesQuery, crateNewTaskQuery } from '@/utils/SupaQueries';
+import type { createNewProject } from '@/types/createNewForm';
+import { projectsQuery , profilesQuery, crateNewProjectQuery } from '@/utils/SupaQueries';
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
 const sheetOpen = defineModel<boolean>()
 
-const today = new Date().toISOString().split('T')[0];
 type selectOption = {label:string , value: number | string}
 
 const selectOptions = ref({
@@ -14,18 +13,6 @@ const selectOptions = ref({
   profiles : [] as selectOption[]
 })
 
-const getProjectsOptions = async ()=>{
-  const {data : allProjects} = await projectsQuery
-
-  if(!allProjects) return
-
-  allProjects.forEach(project => {
-    selectOptions.value.projects.push({
-      label: project.name,
-      value: project.id
-    })
-  });
-}
 const getProfilesOptions = async ()=>{
   const {data : allProfiles} = await profilesQuery
 
@@ -40,25 +27,38 @@ const getProfilesOptions = async ()=>{
 }
 
 const getOptions = async ()=>{
-  await Promise.all([getProjectsOptions() , getProfilesOptions()])
+  await Promise.all([getProfilesOptions()])
 }
 
 getOptions()
 
+const name = ref('')
+const slug = ref('')
+
+
+watch(name, (newVal) => {
+  slug.value = newVal
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+})
+
+
+
 const {profile} = storeToRefs(useAuthStore())
 
-const createTask = async (formData : createNewTask)=>{
-  const task = {
+const createProject = async (formData : createNewProject)=>{
+  const project = {
     ...formData,
     collaborators : [profile.value!.id]
   }
-  const {error} = await crateNewTaskQuery(task)
+  const {error} = await crateNewProjectQuery(project)
   if(error){
     console.log(error);
   }
 
   sheetOpen.value=false
-  toast("New Task Created", {
+  toast("New project Created", {
   "theme": "colored",
   "type": "success"
 })
@@ -70,10 +70,10 @@ const createTask = async (formData : createNewTask)=>{
   <Sheet v-model:open="sheetOpen">
     <SheetContent>
       <SheetHeader>
-        <SheetTitle>Create new task</SheetTitle>
+        <SheetTitle>Create new project</SheetTitle>
       </SheetHeader>
 
-      <FormKit type="form" @submit="createTask" style="padding: 15px;" submit-label="Create Task"
+      <FormKit type="form" @submit="createProject" style="padding: 15px;" submit-label="Create Project"
       :config="{
       validationVisibility:'submit'
       }"
@@ -83,27 +83,26 @@ const createTask = async (formData : createNewTask)=>{
           name="name"
           id="name"
           label="Name"
-          placeholder="My new task"
+          placeholder="My new project"
           validation="required | length : 1255"
+          v-model="name"
+        />
+        <FormKit
+          type="text"
+          name="slug"
+          id="slug"
+          label="slug"
+          placeholder="My-new-project"
+          validation="required | length : 1255"
+          v-model="slug"
         />
         <FormKit
           type="select"
-          name="profile_id"
-          id="profile_id"
+          name="collaborators"
+          id="collaborators"
           label="User"
           placeholder="Select a user"
           :options="selectOptions.profiles"
-          validation="required"
-
-
-        />
-        <FormKit
-          type="select"
-          name="project_id"
-          id="project_id"
-          label="Porject"
-          placeholder="Select a project"
-          :options="selectOptions.projects"
           validation="required"
         />
         <FormKit
@@ -111,15 +110,8 @@ const createTask = async (formData : createNewTask)=>{
           name="description"
           id="description"
           label="Description"
-          placeholder="Task description"
+          placeholder="project description"
           validation="length :0,500"
-        />
-      <FormKit
-          type="date"
-          :value="today"
-          id="due_date"
-          name="due_date"
-          label="Due Date"
         />
       </FormKit>
     </SheetContent>

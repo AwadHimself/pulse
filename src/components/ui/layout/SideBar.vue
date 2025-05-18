@@ -48,7 +48,7 @@ const excuteAction = async (linkTitle: string)=>{
     if(isLoggedOut) router.push("/login")
   }
 }
-defineEmits(['taskClicked'])
+defineEmits(['taskClicked' , 'projectClickked'])
 
 const {menuOpen , toggleMenu}  = useMenu()
 
@@ -84,7 +84,7 @@ class="flex flex-col h-screen gap-2 border-r fixed bg-muted/40 transition-[width
             <DropdownMenuItem  @click="$emit('taskClicked')" >
               Task
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem @click="$emit('projectClickked')" >
               Project
             </DropdownMenuItem>
           </DropdownMenuContent>

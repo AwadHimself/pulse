@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { pageData } = storeToRefs(usePageStore());
 const TaskSheetOpen = ref(false)
+const ProjectSheetOpen = ref(false)
 
 const {menuOpen}  = useMenu()
 
@@ -8,8 +9,12 @@ const {menuOpen}  = useMenu()
 </script>
 
 <template>
-  <SideBar @task-clicked="TaskSheetOpen = true" />
+  <SideBar
+  @task-clicked="TaskSheetOpen = true"
+  @project-clickked="ProjectSheetOpen = true"
+   />
   <AppNewTask v-model="TaskSheetOpen" />
+  <AppNewProject v-model="ProjectSheetOpen" />
   <div class="flex flex-col  transition-[margin]"
   :class="{'ml-52': menuOpen , 'ml-24' :!menuOpen}">
     <TopNav />
