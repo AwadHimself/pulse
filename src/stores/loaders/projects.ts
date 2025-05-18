@@ -1,4 +1,4 @@
-import { projectQuery, projectsQuery, updateProjectQuery, type Project, type Projects } from '@/utils/SupaQueries'
+import { deleteProjectQuery, projectQuery, projectsQuery, updateProjectQuery, type Project, type Projects } from '@/utils/SupaQueries'
 import { useMemoize } from '@vueuse/core'
 
 export const useProjectsStore = defineStore('projects-store', () => {
@@ -72,12 +72,22 @@ export const useProjectsStore = defineStore('projects-store', () => {
     await updateProjectQuery(projectProperties , project.value.id)
   }
 
+    const deleteProject = async ()=>{
+
+      if(!project.value) return
+
+      await deleteProjectQuery(project.value.slug)
+
+    }
+
+
 
   return {
     projects,
     getProjects,
     fetchProject,
     project,
-    updateProject
+    updateProject,
+    deleteProject
   }
 })

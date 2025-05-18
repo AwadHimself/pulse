@@ -17,20 +17,6 @@ import "vue3-toastify/dist/index.css";
     usePageStore().pageData.title = `Task : ${task.value?.name}`
   })
 
-  const deleteLoading = ref(false)
-  const router = useRouter()
-  const TriggerDelete = async ()=>{
-    deleteLoading.value = true
-    await deleteTask()
-    deleteLoading.value = false
-    toast(" Task Deleted", {
-  "theme": "colored",
-  "type": "error",
-})
-setTimeout(() => {
-    router.push({name: '/tasks/'})
-}, 3000);
-  }
 
 </script>
 
@@ -116,12 +102,6 @@ setTimeout(() => {
         </TableCell>
       </TableRow>
     </Table>
-    <Button variant="destructive" class="self-end mt-4! w-full max-w-40 cursor-pointer" @click="TriggerDelete">
-      <Transition name="scale" mode="out-in">
-        <iconify-icon v-if="deleteLoading" icon="lucide:loader-circle" class="mr-1 animate-spin"></iconify-icon>
-        <iconify-icon v-else icon="lucide:trash-2" class="mr-1"></iconify-icon>
-      </Transition>
-      Delete Task
-    </Button>
+    <DeleteButton :deletefun="deleteTask" />
   </div>
 </template>

@@ -86,6 +86,10 @@ export const crateNewProjectQuery = (newProject : createNewProject) =>{
   return supabase.from('projects').insert(newProject)
 }
 
+export const deleteProjectQuery = (slug : string) =>{
+  return supabase.from('projects').delete().eq('slug' , slug)
+}
+
 
 
 export const crateNewTaskQuery = (newTask : createNewTask) =>{

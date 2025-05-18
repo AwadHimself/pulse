@@ -44,6 +44,7 @@ declare module 'vue' {
     copy: typeof import('./src/components/AppInPlaceEdit/AppInPlaceEditStatus copy.vue')['default']
     DataTable: typeof import('./src/components/ui/data-table/DataTable.vue')['default']
     DatePicker: typeof import('./src/components/ui/datePicker.vue')['default']
+    DeleteButton: typeof import('./src/components/ui/deleteButton.vue')['default']
     DropdownMenu: typeof import('./src/components/ui/dropdown-menu/DropdownMenu.vue')['default']
     DropdownMenuCheckboxItem: typeof import('./src/components/ui/dropdown-menu/DropdownMenuCheckboxItem.vue')['default']
     DropdownMenuContent: typeof import('./src/components/ui/dropdown-menu/DropdownMenuContent.vue')['default']

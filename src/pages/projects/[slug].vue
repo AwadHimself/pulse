@@ -8,7 +8,7 @@ const {slug} = useRoute(`/projects/[slug]`).params
 
 const projectsLoader = useProjectsStore()
 const {project} = storeToRefs(projectsLoader)
-const {fetchProject , updateProject} = projectsLoader
+const {fetchProject , updateProject , deleteProject} = projectsLoader
 
   watch(()=>project.value?.name , ()=>{
     usePageStore().pageData.title = `project : ${project.value?.name}`
@@ -97,6 +97,7 @@ const {fetchProject , updateProject} = projectsLoader
       </div>
     </div>
   </section>
+      <DeleteButton :deletefun="deleteProject" class="justify-self-end" />
 </template>
 
 <style lang="scss" scoped>
