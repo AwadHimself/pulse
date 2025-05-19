@@ -28,7 +28,7 @@ setTimeout(() => {
         <iconify-icon v-if="deleteLoading" icon="lucide:loader-circle" class="mr-1 animate-spin"></iconify-icon>
         <iconify-icon v-else icon="lucide:trash-2" class="mr-1"></iconify-icon>
       </Transition>
-      Delete Task
+      Delete
     </Button>
 
 </template>

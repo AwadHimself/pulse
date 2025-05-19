@@ -38,7 +38,7 @@ if(error.value && ('code' in error.value)){
   </section>
 </template>
 
-<style  lang="scss">
+<style  lang="scss" scoped>
 .error {
   margin-left: auto;
   margin-right: auto;

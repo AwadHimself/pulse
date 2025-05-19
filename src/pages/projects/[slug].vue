@@ -97,7 +97,10 @@ const {fetchProject , updateProject , deleteProject} = projectsLoader
       </div>
     </div>
   </section>
-      <DeleteButton :deletefun="deleteProject" class="justify-self-end" />
+  <div class="flex justify-end">
+    <DeleteButton :deletefun="deleteProject" class="justify-self-end" />
+  </div>
+
 </template>
 
 <style lang="scss" scoped>
