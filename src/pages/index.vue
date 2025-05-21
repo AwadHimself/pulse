@@ -12,7 +12,6 @@ usePageStore().pageData.title = 'Home Page'
       :num="4"
       withBtn
       footer="Last Synced on 1 min ago"
-
     />
     <HomeCard
       title="Overdue Tasks"
@@ -35,7 +34,19 @@ usePageStore().pageData.title = 'Home Page'
       theme="success"
     />
   </div>
-  <div class="mt-10">
-    <SegmentedProgress :progress="80" />
+  <div class="mt-5">
+      <Card>
+    <CardHeader class="pl-19 relative">
+      <iconify-icon icon="lucide:mouse-pointer-2"
+      class="text-2xl bg-muted p-3 w-fit rounded-2xl absolute left-4 top-[50%] translate-y-[-50%] "
+      ></iconify-icon>
+      <CardTitle>Project progress</CardTitle>
+      <CardDescription>An overview of your active project milestones and completion status</CardDescription>
+    </CardHeader>
+    <Separator class="w-[95%]! m-auto" />
+    <CardContent>
+      <SegmentedProgress :progress="77" />
+    </CardContent>
+  </Card>
   </div>
 </template>
