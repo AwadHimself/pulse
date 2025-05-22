@@ -60,6 +60,7 @@ declare module 'vue' {
     DropdownMenuSubContent: typeof import('./src/components/ui/dropdown-menu/DropdownMenuSubContent.vue')['default']
     DropdownMenuSubTrigger: typeof import('./src/components/ui/dropdown-menu/DropdownMenuSubTrigger.vue')['default']
     DropdownMenuTrigger: typeof import('./src/components/ui/dropdown-menu/DropdownMenuTrigger.vue')['default']
+    FeedActivity: typeof import('./src/components/homepage/feedActivity.vue')['default']
     GuestLayout: typeof import('./src/components/ui/layout/main/GuestLayout.vue')['default']
     HomeCard: typeof import('./src/components/homepage/homeCard.vue')['default']
     Input: typeof import('./src/components/ui/input/Input.vue')['default']

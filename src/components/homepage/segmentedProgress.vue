@@ -2,7 +2,8 @@
 import { ref } from 'vue'
 
 const props = defineProps<{
-  progress: number
+  progress: number,
+  phases: { icon: string; title: string; status: string }[];
 }>()
 
 const barColorClass = ref('')
@@ -21,6 +22,16 @@ if (props.progress <= 25) {
   barColorClass.value = 'bg-green-600'
   textColorClass.value = 'text-green-600'
 }
+
+function getStatusColor(status: string): string {
+  const s = status.toLowerCase();
+
+  if (s.includes('completed')) return 'text-green-600';
+  if (s.includes('in progress')) return 'text-orange-500';
+  if (s.includes('not started')) return 'text-muted-foreground';
+  return '';
+}
+
 </script>
 
 <template>
@@ -47,4 +58,20 @@ if (props.progress <= 25) {
       {{ progress }}% completed
     </p>
   </div>
+
+<div
+  v-for="(phase, index) in props.phases"
+  :key="index"
+  class="mt-5 flex justify-between gap-5 items-center text-muted-foreground "
+>
+  <div class="flex gap-1.5">
+    <iconify-icon :icon="phase.icon"></iconify-icon>
+    <p class="w-max">{{ phase.title }}</p>
+  </div>
+
+  <separator class="flex-grow" style="width: auto;" />
+
+  <p :class="['w-max', getStatusColor(phase.status)]">{{ phase.status }}</p>
+</div>
+
 </template>

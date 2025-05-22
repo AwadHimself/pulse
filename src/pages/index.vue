@@ -1,9 +1,32 @@
 <script setup lang="ts">
 usePageStore().pageData.title = 'Home Page'
+const projectPhases = [
+  {
+    icon: 'lucide:timer-reset',
+    title: 'Research phase',
+    status: 'completed (11th May, 2025)',
+  },
+  {
+    icon: 'lucide:gallery-thumbnails',
+    title: 'Design spirit',
+    status: 'In Progress',
+  },
+  {
+    icon: 'lucide:braces',
+    title: 'Dev Handoff',
+    status: 'Not Started',
+  },
+  {
+    icon: 'lucide:file-question',
+    title: 'Final QA',
+    status: 'Not Started',
+  },
+];
+
 </script>
 
 <template>
-  <div class="flex flex-wrap lg:flex-nowrap flex-row gap-4 w-full justify-between">
+  <div class="grid grid-cols-3 gap-4">
     <HomeCard
       title="Tasks Due Today"
       description="Across 6 ongoing projects"
@@ -33,9 +56,7 @@ usePageStore().pageData.title = 'Home Page'
       footer="1 new project This week"
       theme="success"
     />
-  </div>
-  <div class="mt-5">
-      <Card>
+  <Card class="col-span-2">
     <CardHeader class="pl-19 relative">
       <iconify-icon icon="lucide:mouse-pointer-2"
       class="text-2xl bg-muted p-3 w-fit rounded-2xl absolute left-4 top-[50%] translate-y-[-50%] "
@@ -45,7 +66,25 @@ usePageStore().pageData.title = 'Home Page'
     </CardHeader>
     <Separator class="w-[95%]! m-auto" />
     <CardContent>
-      <SegmentedProgress :progress="77" />
+      <SegmentedProgress :phases="projectPhases" :progress="66" />
+    </CardContent>
+  </Card>
+  <Card class="">
+    <CardHeader class="pl-19 relative">
+      <iconify-icon icon="lucide:users-round"
+      class="text-2xl bg-muted p-3 w-fit rounded-2xl absolute left-4 top-[50%] translate-y-[-50%] "
+      ></iconify-icon>
+      <CardTitle>Team Activity Feed</CardTitle>
+      <CardDescription>Stay updated with what your team say</CardDescription>
+    </CardHeader>
+    <Separator class="w-[95%]! m-auto" />
+    <CardContent class="pr-3 ">
+      <div class="flex flex-col gap-3">
+        <FeedActivity />
+        <FeedActivity />
+        <FeedActivity />
+        <FeedActivity />
+      </div>
     </CardContent>
   </Card>
   </div>
